@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: recovery_user
+      POSTGRES_PASSWORD: recovery_password
+      POSTGRES_DB: revenue_recovery
+    ports:
+      - "5432:5432"
+    volumes:
+      - recovery_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U recovery_user -d revenue_recovery"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  recovery_pgdata:
+
+# Deliberately no backend/frontend services here yet — run them with
+# `uvicorn`/`npm run dev` directly during development so hot-reload works.
+# This compose file's only job right now is a database separate from the
+# existing Java payment system's Postgres instance, per the spec (§18).

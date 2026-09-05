@@ -1,0 +1,23 @@
+target/
+.mvn/
+*.log
+.tmp/
+.env
+
+# Local Python/test tooling
+.venv/
+venv/
+venv312/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Generated reports and test dumps
+final-test.txt
+test-output.txt
+*.dump
+*.dumpstream
+database/*.zip
+
+# Local IDE state
+.vscode/

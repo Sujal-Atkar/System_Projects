@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+venv312/
+
+# Backend runtime
+backend/.env
+backend/*.db
+backend/revenue_recovery.db
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Local root environment/runtime files
+.env
+.env.*
+!.env.example
+!backend/.env.example
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+frontend/.env.*
+!frontend/.env.example
+*.tsbuildinfo
+
+# Local IDE and generated output
+.vscode/
+dist/
+coverage/
+
+# OS
+.DS_Store

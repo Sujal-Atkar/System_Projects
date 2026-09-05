@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/payment_db?options=-c%20TimeZone=UTC
+    username: payment_user
+    password: payment_password
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: filesystem:database/migration
+
+payment:
+  recovery:
+    internal-secret: test-internal-secret

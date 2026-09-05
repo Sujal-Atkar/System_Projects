@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: distributed-payment-system
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/payment_db?options=-c%20TimeZone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:${POSTGRES_USER:payment_user}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${POSTGRES_PASSWORD:payment_password}}
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: true
+    locations: ${SPRING_FLYWAY_LOCATIONS:filesystem:database/migration}
+    baseline-on-migrate: false
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2s
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+server:
+  port: 8081
+
+payment:
+  recovery:
+    max-attempts: 3
+    internal-secret: ${INTERNAL_RECOVERY_SECRET:}
+    ai:
+      api-key: ${GEMINI_API_KEY:}
+      model: ${GEMINI_MODEL:gemini-3.1-flash-lite}
+      timeout-seconds: 5
+    consumer:
+      group-id: recovery-consumer-group
+  outbox:
+    topic: payment-events
+    batch-size: 100
+    poll-interval-ms: 5000
+  ledger:
+    consumer:
+      group-id: ledger-consumer-group
+  reconciliation:
+    consumer:
+      group-id: reconciliation-consumer-group
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true

@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-paper text-ink antialiased;
+    font-feature-settings: "tnum" 1, "cv11" 1;
+  }
+
+  ::selection {
+    background-color: #2c4a8c22;
+  }
+
+  :focus-visible {
+    outline: 2px solid #2c4a8c;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .kpi-number {
+    font-family: var(--font-plex-serif), Georgia, serif;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .panel {
+    @apply border border-slate-faint bg-white rounded-lg;
+    box-shadow: 0 8px 24px rgba(24, 35, 50, 0.04);
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-sm px-2 py-0.5 text-xs font-medium;
+  }
+
+  .app-sidebar { @apply fixed inset-y-0 left-0 z-10 flex w-60 flex-col border-r border-slate-faint bg-white px-5 py-6; }
+  .app-content { @apply ml-60 min-h-screen flex-1; }
+  .page-wrap { @apply mx-auto w-full max-w-[1440px] px-10 py-8; }
+  .brand-lockup { @apply flex items-center gap-3 px-2 text-ink; }
+  .brand-lockup strong { @apply block text-sm font-semibold tracking-tight; }
+  .brand-lockup small, .user-chip small { @apply block text-[10px] text-slate-light; }
+  .brand-mark { @apply flex h-8 w-8 items-center justify-center rounded-full bg-ledger text-xl font-bold text-white; }
+  .sidebar-nav { @apply mt-14 flex flex-col gap-1; }
+  .nav-label { @apply mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-light; }
+  .nav-item { @apply flex items-center gap-3 rounded px-3 py-2.5 text-sm text-slate transition-colors hover:bg-paper-raised hover:text-ink; }
+  .nav-item[href="/"] { }
+  .nav-icon { @apply w-5 text-center text-base text-slate-light; }
+  .sidebar-bottom { @apply mt-auto space-y-5; }
+  .health-indicator { @apply flex items-center gap-2 text-xs text-slate; }
+  .health-indicator span { @apply h-2 w-2 rounded-full bg-recovered; }
+  .user-chip { @apply flex items-center gap-2 border-t border-slate-faint pt-5; }
+  .user-chip strong { @apply block text-xs font-medium text-ink; }
+  .avatar { @apply flex h-8 w-8 items-center justify-center rounded-full bg-ledger-bg text-[10px] font-semibold text-ledger; }
+  .topbar { @apply flex h-20 items-center justify-between border-b border-slate-faint bg-white/80 px-10 backdrop-blur; }
+  .eyebrow { @apply mr-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-light; }
+  .topbar-title { @apply text-sm font-semibold text-ink; }
+  .topbar-actions { @apply flex gap-3; }
+  .topbar-actions button { @apply flex h-8 w-8 items-center justify-center rounded-full text-xl text-slate hover:bg-paper-raised; }
+  .section-kicker { @apply text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-light; }
+  .metric-value { @apply kpi-number text-3xl font-semibold tracking-normal; }
+}
+
+@keyframes rise-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.rise-in { animation: rise-in 420ms ease-out both; }
+.stagger-1 { animation-delay: 60ms; } .stagger-2 { animation-delay: 120ms; } .stagger-3 { animation-delay: 180ms; }
+
+@media (max-width: 900px) {
+  .app-sidebar { width: 76px; padding: 20px 12px; }
+  .app-content { margin-left: 76px; }
+  .brand-lockup span:last-child, .nav-label, .nav-item:not(.active)::after, .nav-item { font-size: 0; }
+  .nav-item { @apply justify-center px-2; } .nav-icon { font-size: 18px; }
+  .user-chip span:last-child, .health-indicator { display: none; }
+  .page-wrap, .topbar { @apply px-5; }
+}
+
+@media (max-width: 640px) { .app-sidebar { display: none; } .app-content { margin-left: 0; } .page-wrap { @apply px-4 py-5; } .topbar { @apply px-4; } .eyebrow { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
